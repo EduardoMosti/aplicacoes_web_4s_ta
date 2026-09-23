@@ -1,6 +1,6 @@
 package com.example.imagemPecas.domain.entity;
 
-import com.example.imagemPecas.domain.enuns.ImageExtension;
+import com.example.imagemPecas.domain.enums.ImageExtension;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -37,4 +37,8 @@ public class Image {
     @Column
     @Lob
     private byte[] file;
+
+    public String getFileName(){
+        return getName().concat("").concat(getExtension().name());
+    }
 }
