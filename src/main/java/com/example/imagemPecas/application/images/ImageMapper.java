@@ -18,7 +18,7 @@ public class ImageMapper {
                 .name(name)
                 .tags(String.join(",", tags))
                 .size(file.getSize())
-                .extension(ImageExtension.valueof(MediaType.valueOf(file.getContentType())))
+                .extension(ImageExtension.fromMediaType(MediaType.valueOf(file.getContentType())))
                 .file(file.getBytes())
                 .build();
     }
