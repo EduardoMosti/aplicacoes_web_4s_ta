@@ -3,11 +3,8 @@ package com.example.imagemPecas.application.images;
 import com.example.imagemPecas.domain.entity.Image;
 import com.example.imagemPecas.domain.enums.ImageExtension;
 import com.example.imagemPecas.domain.service.ImageService;
-import com.example.imagemPecas.domain.service.ImageSpecifications;
-import com.example.imagemPecas.infra.repository.ImageRepository;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -29,7 +26,6 @@ public class ImagesController {
 
     private final ImageService service;
     private final ImageMapper mapper;
-    private final ImageRepository repository;
 
     // POST: salvar imagem
     @PostMapping
@@ -48,7 +44,7 @@ public class ImagesController {
         return ResponseEntity.created(imageUri).build();
     }
 
-    // GET SEARCH: buscar com filtros dinâmicos
+    // GET: buscar com filtros dinâmicos (raiz com query parameters)
     @GetMapping
     public ResponseEntity<List<ImageDTO>> search(
             @RequestParam(value = "extension", required = false) String extension,
@@ -90,7 +86,7 @@ public class ImagesController {
 
     // Helper: construir URL da imagem
     private URI buildImageURL(Image image) {
-                return ServletUriComponentsBuilder.fromCurrentRequestUri()
+        return ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/v1/images/" + image.getId())
                 .build()
                 .toUri();

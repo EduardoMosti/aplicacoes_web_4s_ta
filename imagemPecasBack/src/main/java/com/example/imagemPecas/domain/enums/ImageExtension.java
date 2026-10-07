@@ -16,7 +16,7 @@ public enum ImageExtension {
         this.mediaType = mediaType;
     }
 
-    public static ImageExtension fronMediaType (MediaType mediaType) {
+    public static ImageExtension fromMediaType(MediaType mediaType) {
         return Arrays.stream(values())
                 .filter(ie -> ie.mediaType.equals(mediaType))
                 .findFirst()
@@ -32,9 +32,5 @@ public enum ImageExtension {
         } catch (IllegalArgumentException e) {
             return null;
         }
-    }
-
-    public static ImageExtension fromMediaType(MediaType mediaType) {
-        return null;
     }
 }

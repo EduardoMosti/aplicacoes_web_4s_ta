@@ -25,13 +25,9 @@ public class ImageMapper {
 
     // Converte Image → ImageDTO (resposta API)
     public ImageDTO imageToDTO(Image image, String url) {
-        String extension = image.getExtension() != null
-                ? image.getExtension().name()
-                : "UNKNOWN";
-
         return ImageDTO.builder()
                 .url(url)
-                .extension(extension)
+                .extension(image.getExtension().name())
                 .name(image.getName())
                 .size(image.getSize())
                 .uploadDate(image.getUploadDate().toLocalDate())
