@@ -1,6 +1,7 @@
 package com.example.imagemPecas.application.images;
 
 import com.example.imagemPecas.domain.entity.Image;
+import com.example.imagemPecas.domain.enums.ImageExtension;
 import com.example.imagemPecas.domain.service.ImageService;
 import com.example.imagemPecas.domain.service.ImageSpecifications;
 import com.example.imagemPecas.infra.repository.ImageRepository;
@@ -18,6 +19,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import java.io.IOException;
 import java.net.URI;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/v1/images")
@@ -46,6 +48,27 @@ public class ImagesController {
         return ResponseEntity.created(imageUri).build();
     }
 
+    // GET SEARCH: buscar com filtros dinâmicos
+    @GetMapping
+    public ResponseEntity<List<ImageDTO>> search(
+            @RequestParam(value = "extension", required = false) String extension,
+            @RequestParam(value = "query", required = false) String query
+    ) {
+        var result = service.search(
+                extension != null ? ImageExtension.ofName(extension) : null,
+                query
+        );
+
+        var images = result.stream()
+                .map(image -> {
+                    var url = buildImageURL(image);
+                    return mapper.imageToDTO(image, url.toString());
+                })
+                .collect(Collectors.toList());
+
+        return ResponseEntity.ok(images);
+    }
+
     // GET: recuperar imagem por ID
     @GetMapping("{id}")
     public ResponseEntity<byte[]> getImage(@PathVariable String id) {
@@ -64,34 +87,10 @@ public class ImagesController {
         return new ResponseEntity<>(image.getFile(), headers, HttpStatus.OK);
     }
 
-    // GET SEARCH: buscar com filtros dinâmicos
-    @GetMapping("/search")
-    public ResponseEntity<List<ImageDTO>> search(@ModelAttribute ImageFilterRequest filter) {
-        Specification<Image> spec =(root, query, cb) -> cb.conjunction();
-
-        if (filter.getExtension() != null) {
-            spec = spec.and(ImageSpecifications.hasExtension(filter.getExtension()));
-        }
-
-        if (filter.getName() != null && !filter.getName().isEmpty()) {
-            spec = spec.and(ImageSpecifications.nameContains(filter.getName()));
-        }
-
-        if (filter.getUploadDateAfter() != null) {
-            spec = spec.and(ImageSpecifications.uploadedAfter(filter.getUploadDateAfter()));
-        }
-
-        List<Image> images = repository.findAll(spec);
-
-        List<ImageDTO> dtos = images.stream()
-                .map(image -> mapper.imageToDTO(image, buildImageURL(image).toString()))
-                .toList();
-        return ResponseEntity.ok(dtos);
-    }
 
     // Helper: construir URL da imagem
     private URI buildImageURL(Image image) {
-                return ServletUriComponentsBuilder.fromCurrentContextPath()
+                return ServletUriComponentsBuilder.fromCurrentRequestUri()
                 .path("/v1/images/" + image.getId())
                 .build()
                 .toUri();

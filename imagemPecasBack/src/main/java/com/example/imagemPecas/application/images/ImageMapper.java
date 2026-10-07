@@ -18,16 +18,20 @@ public class ImageMapper {
                 .name(name)
                 .tags(String.join(",", tags))
                 .size(file.getSize())
-                .extension(ImageExtension.valueof(MediaType.valueOf(file.getContentType())))
+                .extension(ImageExtension.fromMediaType(MediaType.valueOf(file.getContentType())))
                 .file(file.getBytes())
                 .build();
     }
 
     // Converte Image → ImageDTO (resposta API)
     public ImageDTO imageToDTO(Image image, String url) {
+        String extension = image.getExtension() != null
+                ? image.getExtension().name()
+                : "UNKNOWN";
+
         return ImageDTO.builder()
                 .url(url)
-                .extension(image.getExtension().name())
+                .extension(extension)
                 .name(image.getName())
                 .size(image.getSize())
                 .uploadDate(image.getUploadDate().toLocalDate())
