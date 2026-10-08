@@ -86,8 +86,9 @@ public class ImagesController {
 
     // Helper: construir URL da imagem
     private URI buildImageURL(Image image) {
-        return ServletUriComponentsBuilder.fromCurrentRequestUri()
-                .path("/v1/images/" + image.getId())
+        return ServletUriComponentsBuilder.fromCurrentContextPath()
+                .path("/v1/images/")
+                .path(image.getId())
                 .build()
                 .toUri();
     }

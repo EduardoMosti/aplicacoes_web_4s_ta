@@ -35,3 +35,5 @@ build/
 ### DATABASE ###
 /data
 data
+.idea/
+.idea/
