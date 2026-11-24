@@ -1,19 +1,46 @@
 interface TemplateProps {
     children: React.ReactNode;
+    loading?: boolean;
 }
 
-export const Template: React.FC<TemplateProps> = (props: TemplateProps) => {
+export const Template: React.FC<TemplateProps> = ({ children, loading = false }: TemplateProps) => {
     return (
         <>
 
             <Header />
-                <div className = "container mx-auto mt-8 px-4">
-                    {props.children}
-                </div>       
+                <div className = {`container mx-auto mt-8 px-4 ${loading ? "animate-pulse" : ""}`}>
+                    <RenderIf condition={loading}>
+                        <Loading />
+                    </RenderIf>
+                    {children}
+                </div>
 
             <Footer />
-            
+
         </>
+    )
+}
+
+interface RenderIfProps {
+    condition?: boolean;
+    children: React.ReactNode;
+}
+
+export const RenderIf: React.FC<RenderIfProps> = ({ condition = true, children }: RenderIfProps) => {
+    if (condition) {
+        return children;
+    }
+    return false;
+}
+
+const Loading: React.FC = () => {
+    return (
+        <div className = "text-center">
+            <div role="status"
+                 className = "inline-block h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-red-600">
+                <span className = "sr-only">Loading...</span>
+            </div>
+        </div>
     )
 }
 
