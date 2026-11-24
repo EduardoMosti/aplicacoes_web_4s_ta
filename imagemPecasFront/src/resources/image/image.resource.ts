@@ -3,5 +3,5 @@ export class Image {
     name?: string;
     extension?: string;
     size?: number;
-    uploadDate?: String;
+    uploadDate?: string;
 }
