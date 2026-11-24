@@ -7,10 +7,15 @@ interface ImageCardProps {
 
 
 export const ImageCard: React.FC<ImageCardProps> = ({ nome, tamanho, dataUpload, src }: ImageCardProps) => {
+
+  function download() {
+    window.open(src, '_blank');
+  }
+
   return (
     <div className="card relative bg-white rounded-md shadow-md transition-transform
     easy-in duration-300 transform hover:shadow-lg hover:-translate-y-2">
-      <img src={src} className="w-full h-56 object-cover rounded-t-md" alt="" />
+      <img src={src} className="w-full h-56 object-cover rounded-t-md" alt="" onClick={download} />
       <div className="card-body p-4">
         <h5 className="text-lg font-semibold">{nome}</h5>
         <p className="text-gray-600">{tamanho}</p>
