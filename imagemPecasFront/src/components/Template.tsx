@@ -38,7 +38,7 @@ const Loading: React.FC = () => {
         <div className = "text-center">
             <div role="status"
                  className = "inline-block h-8 w-8 animate-spin rounded-full border-4 border-gray-300 border-t-red-600">
-                <span className = "sr-only">Loading...</span>
+                <span className = "sr-only">Carregando...</span>
             </div>
         </div>
     )
@@ -58,7 +58,7 @@ const Footer: React.FC = () => {
     return (
         <footer className = "bg-red-600 text-white py-3">
           <div className = "container mx-auto text-center">
-            <p>&copy; 2023 Imagem Peças. Todos os direitos reservados.</p>
+            <p>&copy; {new Date().getFullYear()} Imagem Peças. Todos os direitos reservados.</p>
             <p>Desenvolvido por Eduardo Mosti</p>
           </div>
         </footer>

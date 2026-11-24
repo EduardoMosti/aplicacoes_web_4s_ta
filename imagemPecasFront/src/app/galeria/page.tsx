@@ -47,16 +47,16 @@ export default function GaleriaPage() {
                  onChange={event => setQuery(event.target.value)} />
           <select className="border px-4 py-2 rounded-lg text-gray-900"
                   onChange={event => setExtension(event.target.value)}>
-            <option value="">All Formats</option>
+            <option value="">Todos os formatos</option>
             <option value="PNG">PNG</option>
             <option value="JPG">JPG</option>
             <option value="GIF">GIF</option>
           </select>
           <button className="bg-red-500 hover:bg-red-300 text-white px-4 py-2 rounded-lg" onClick={searchImages}>
-            Search
+            Pesquisar
           </button>
           <button className="bg-yellow-500 hover:bg-yellow-300 text-white px-4 py-2 rounded-lg">
-            Add New
+            Adicionar nova
           </button>
         </div>
       </section>
