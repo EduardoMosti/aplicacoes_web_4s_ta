@@ -18,8 +18,10 @@ import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 
+
 @RestController
 @RequestMapping("/v1/images")
+@CrossOrigin("*")
 @Slf4j
 @RequiredArgsConstructor
 public class ImagesController {
